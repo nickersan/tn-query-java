@@ -26,7 +26,7 @@
     <dependency>
       <groupId>com.tn.query</groupId>
       <artifactId>tn-query</artifactId>
-      <version>0.0.01-SNAPSHOT</version>
+      <version>0.0.1-SNAPSHOT</version>
     </dependency>
 
     <!-- 3rd party -->
