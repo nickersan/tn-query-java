@@ -10,7 +10,7 @@ For each object you want to query create an instance of `com.tn.query.java.JavaQ
 2. the `com.tn.query.Mapper`s used to convert the string value from the query string, to a value to be compared to the object field.
 
 For example, given a class:
-```
+```java
 public class Person
 {
   private int id;
@@ -21,8 +21,8 @@ public class Person
 }
 ```
 
-An instance of `com.tn.query.java.JavaQueryParser` would be created as follows:
-```
+An instance of `com.tn.query.java.JavaQueryParser` could be created as follows:
+```java
 QueryParser<Predicate<Target>> queryParser = new JavaQueryParser<>(
   List.of(
     Getter.intValue("id", target -> target.getId()),
@@ -32,9 +32,14 @@ QueryParser<Predicate<Target>> queryParser = new JavaQueryParser<>(
   ),
   List.of(
     Mapper.toInt("id"),
-    Mapper.toEnum("sex", Sex.class),
+    Mapper.toEnum("sex", Sex.class)
   )
 );
+```
+
+And would be used:
+```java
+people.stream().filter(queryParser.parse("((firstName = John && sex = MALE) || (firstName = Jane && sex = FEMALE)) && lastName = Smith")).collect(toList());
 ```
 
 Note: when no mapper is provided, the value in the query string will be treated as a `java.lang.String`.
