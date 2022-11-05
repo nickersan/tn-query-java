@@ -570,9 +570,9 @@ class JavaQueryParserTest
     assertFalse(this.queryParser.parse("localDateTimeValue <= 2021-02-05T10:14").test(target));
     assertThrows(QueryException.class, () -> this.queryParser.parse("localDateTimeValue <= X").test(target));
 
-    assertThrows(QueryException.class, () -> this.queryParser.parse("localDateValue ≈ 2021-02-05T10:16").test(target));
+    assertThrows(QueryException.class, () -> this.queryParser.parse("localDateTimeValue ≈ 2021-02-05T10:16").test(target));
 
-    assertThrows(QueryException.class, () -> this.queryParser.parse("localDateValue !≈ 2021-02-05T10:15").test(target));
+    assertThrows(QueryException.class, () -> this.queryParser.parse("localDateTimeValue !≈ 2021-02-05T10:15").test(target));
 
     assertTrue(this.queryParser.parse("localDateTimeValue ∈ [2021-02-05T10:14, 2021-02-05T10:15, 2021-02-05T10:16]").test(target));
     assertTrue(this.queryParser.parse("localDateTimeValue ∈ [2021-02-05T10:15]").test(target));
@@ -614,9 +614,9 @@ class JavaQueryParserTest
     assertFalse(this.queryParser.parse("localDateTimeValue <= 2021-02-05T10:15:15").test(target));
     assertThrows(QueryException.class, () -> this.queryParser.parse("localDateTimeValue <= X").test(target));
 
-    assertThrows(QueryException.class, () -> this.queryParser.parse("localDateValue ≈ 2021-02-05T10:15:16").test(target));
+    assertThrows(QueryException.class, () -> this.queryParser.parse("localDateTimeValue ≈ 2021-02-05T10:15:16").test(target));
 
-    assertThrows(QueryException.class, () -> this.queryParser.parse("localDateValue !≈ 2021-02-05T10:15:15").test(target));
+    assertThrows(QueryException.class, () -> this.queryParser.parse("localDateTimeValue !≈ 2021-02-05T10:15:15").test(target));
 
     assertTrue(this.queryParser.parse("localDateTimeValue ∈ [2021-02-05T10:15:15, 2021-02-05T10:15:16, 2021-02-05T10:15:17]").test(target));
     assertTrue(this.queryParser.parse("localDateTimeValue ∈ [2021-02-05T10:15:16]").test(target));
@@ -658,9 +658,9 @@ class JavaQueryParserTest
     assertFalse(this.queryParser.parse("localDateTimeValue <= 2021-02-05T10:15:16.16").test(target));
     assertThrows(QueryException.class, () -> this.queryParser.parse("localDateTimeValue <= X").test(target));
 
-    assertThrows(QueryException.class, () -> this.queryParser.parse("localDateValue ≈ 2021-02-05T10:15:16.18").test(target));
+    assertThrows(QueryException.class, () -> this.queryParser.parse("localDateTimeValue ≈ 2021-02-05T10:15:16.18").test(target));
 
-    assertThrows(QueryException.class, () -> this.queryParser.parse("localDateValue !≈ 2021-02-05T10:15:16.17").test(target));
+    assertThrows(QueryException.class, () -> this.queryParser.parse("localDateTimeValue !≈ 2021-02-05T10:15:16.17").test(target));
 
     assertTrue(this.queryParser.parse("localDateTimeValue ∈ [2021-02-05T10:15:16.16, 2021-02-05T10:15:16.17, 2021-02-05T10:15:16.18]").test(target));
     assertTrue(this.queryParser.parse("localDateTimeValue ∈ [2021-02-05T10:15:16.17]").test(target));
