@@ -12,7 +12,6 @@ import javax.annotation.Nonnull;
 
 import com.tn.query.AbstractQueryParser;
 import com.tn.query.Mapper;
-import com.tn.query.QueryException;
 import com.tn.query.QueryParseException;
 
 public class JavaQueryParser<T> extends AbstractQueryParser<Predicate<T>>
@@ -131,10 +130,5 @@ public class JavaQueryParser<T> extends AbstractQueryParser<Predicate<T>>
     checkLikeable(left);
 
     return left.toString().matches(right.toString().replace(WILDCARD, REGEX_ANY));
-  }
-
-  private void checkLikeable(Object value)
-  {
-    if (!(value instanceof String)) throw new QueryException("Like comparisons only work for string values, received: " + value);
   }
 }

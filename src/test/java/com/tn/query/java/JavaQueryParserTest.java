@@ -88,6 +88,10 @@ class JavaQueryParserTest
     assertFalse(this.queryParser.parse("booleanValue <= false").test(target));
     assertFalse(this.queryParser.parse("booleanValue <= X").test(target));
 
+    assertThrows(QueryException.class, () -> this.queryParser.parse("booleanValue ≈ true").test(target));
+
+    assertThrows(QueryException.class, () -> this.queryParser.parse("booleanValue !≈ false").test(target));
+
     assertTrue(this.queryParser.parse("booleanValue ∈ [true, false]").test(target));
     assertTrue(this.queryParser.parse("booleanValue ∈ [true]").test(target));
     assertFalse(this.queryParser.parse("booleanValue ∈ [false]").test(target));
