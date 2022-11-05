@@ -12,10 +12,13 @@ import javax.annotation.Nonnull;
 
 import com.tn.query.AbstractQueryParser;
 import com.tn.query.Mapper;
+import com.tn.query.QueryException;
 import com.tn.query.QueryParseException;
 
 public class JavaQueryParser<T> extends AbstractQueryParser<Predicate<T>>
 {
+  private static final String REGEX_ANY = ".*";
+
   private final Map<String, Function<T, ?>> getters;
 
   public JavaQueryParser(Collection<Getter<T>> getters, Collection<Mapper> mappers)
@@ -67,6 +70,20 @@ public class JavaQueryParser<T> extends AbstractQueryParser<Predicate<T>>
   }
 
   @Override
+  protected Predicate<T> like(String left, Object right)
+  {
+    Function<T, ?> getter = getter(left);
+    return target -> like(getter.apply(target), right);
+  }
+
+  @Override
+  protected Predicate<T> notLike(String left, Object right)
+  {
+    Function<T, ?> getter = getter(left);
+    return target -> !like(getter.apply(target), right);
+  }
+
+  @Override
   protected Predicate<T> in(String left, List<?> right)
   {
     Function<T, ?> getter = getter(left);
@@ -107,5 +124,17 @@ public class JavaQueryParser<T> extends AbstractQueryParser<Predicate<T>>
     if (getter == null) throw new QueryParseException("Getter missing for: " + left);
 
     return getter;
+  }
+
+  private boolean like(Object left, Object right)
+  {
+    checkLikeable(left);
+
+    return left.toString().matches(right.toString().replace(WILDCARD, REGEX_ANY));
+  }
+
+  private void checkLikeable(Object value)
+  {
+    if (!(value instanceof String)) throw new QueryException("Like comparisons only work for string values, received: " + value);
   }
 }
