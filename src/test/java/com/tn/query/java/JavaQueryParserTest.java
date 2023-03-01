@@ -88,6 +88,10 @@ class JavaQueryParserTest
     assertFalse(this.queryParser.parse("booleanValue <= false").test(target));
     assertFalse(this.queryParser.parse("booleanValue <= X").test(target));
 
+    assertThrows(QueryException.class, () -> this.queryParser.parse("booleanValue ≈ true").test(target));
+
+    assertThrows(QueryException.class, () -> this.queryParser.parse("booleanValue !≈ false").test(target));
+
     assertTrue(this.queryParser.parse("booleanValue ∈ [true, false]").test(target));
     assertTrue(this.queryParser.parse("booleanValue ∈ [true]").test(target));
     assertFalse(this.queryParser.parse("booleanValue ∈ [false]").test(target));
@@ -126,6 +130,10 @@ class JavaQueryParserTest
     assertFalse(this.queryParser.parse("byteValue <= 0").test(target));
     assertThrows(QueryException.class, () -> this.queryParser.parse("byteValue <= X").test(target));
 
+    assertThrows(QueryException.class, () -> this.queryParser.parse("byteValue ≈ 1").test(target));
+
+    assertThrows(QueryException.class, () -> this.queryParser.parse("byteValue !≈ 2").test(target));
+
     assertTrue(this.queryParser.parse("byteValue ∈ [1, 2]").test(target));
     assertTrue(this.queryParser.parse("byteValue ∈ [1]").test(target));
     assertFalse(this.queryParser.parse("byteValue ∈ [2]").test(target));
@@ -163,6 +171,10 @@ class JavaQueryParserTest
     assertTrue(this.queryParser.parse("charValue <= b").test(target));
     assertFalse(this.queryParser.parse("charValue <= a").test(target));
     assertThrows(QueryException.class, () -> this.queryParser.parse("charValue <= ab").test(target));
+
+    assertThrows(QueryException.class, () -> this.queryParser.parse("charValue ≈ b").test(target));
+
+    assertThrows(QueryException.class, () -> this.queryParser.parse("charValue !≈ c").test(target));
 
     assertTrue(this.queryParser.parse("charValue ∈ [a, b, c]").test(target));
     assertTrue(this.queryParser.parse("charValue ∈ [b]").test(target));
@@ -206,6 +218,10 @@ class JavaQueryParserTest
     assertFalse(this.queryParser.parse("dateValue <= 2021-02-04").test(target));
     assertThrows(QueryException.class, () -> this.queryParser.parse("dateValue <= X").test(target));
 
+    assertThrows(QueryException.class, () -> this.queryParser.parse("dateValue ≈ 2021-02-05").test(target));
+
+    assertThrows(QueryException.class, () -> this.queryParser.parse("dateValue !≈ 2021-02-06").test(target));
+
     assertTrue(this.queryParser.parse("dateValue ∈ [2021-02-04, 2021-02-05, 2021-02-06]").test(target));
     assertTrue(this.queryParser.parse("dateValue ∈ [2021-02-05]").test(target));
     assertFalse(this.queryParser.parse("dateValue ∈ [2021-02-04]").test(target));
@@ -248,6 +264,10 @@ class JavaQueryParserTest
     assertFalse(this.queryParser.parse("dateValue <= 2021-02-05T10:14").test(target));
     assertThrows(QueryException.class, () -> this.queryParser.parse("dateValue <= X").test(target));
 
+    assertThrows(QueryException.class, () -> this.queryParser.parse("dateValue ≈ 2021-02-05T10:15").test(target));
+
+    assertThrows(QueryException.class, () -> this.queryParser.parse("dateValue !≈ 2021-02-05T10:16").test(target));
+
     assertTrue(this.queryParser.parse("dateValue ∈ [2021-02-05T10:14, 2021-02-05T10:15, 2021-02-05T10:16]").test(target));
     assertTrue(this.queryParser.parse("dateValue ∈ [2021-02-05T10:15]").test(target));
     assertFalse(this.queryParser.parse("dateValue ∈ [2021-02-05T10:14]").test(target));
@@ -285,10 +305,14 @@ class JavaQueryParserTest
     assertFalse(this.queryParser.parse("dateValue < 2021-02-05T10:15:16").test(target));
     assertThrows(QueryException.class, () -> this.queryParser.parse("dateValue < X").test(target));
 
-    assertTrue(this.queryParser.parse("dateValue <= 2021-02-05T10:17").test(target));
-    assertTrue(this.queryParser.parse("dateValue <= 2021-02-05T10:16").test(target));
-    assertFalse(this.queryParser.parse("dateValue <= 2021-02-05T10:15").test(target));
+    assertTrue(this.queryParser.parse("dateValue <= 2021-02-05T10:15:17").test(target));
+    assertTrue(this.queryParser.parse("dateValue <= 2021-02-05T10:15:16").test(target));
+    assertFalse(this.queryParser.parse("dateValue <= 2021-02-05T10:15:15").test(target));
     assertThrows(QueryException.class, () -> this.queryParser.parse("dateValue <= X").test(target));
+
+    assertThrows(QueryException.class, () -> this.queryParser.parse("dateValue ≈ 2021-02-05T10:15:16").test(target));
+
+    assertThrows(QueryException.class, () -> this.queryParser.parse("dateValue !≈ 2021-02-05T10:17").test(target));
 
     assertTrue(this.queryParser.parse("dateValue ∈ [2021-02-05T10:15:15, 2021-02-05T10:15:16, 2021-02-05T10:15:17]").test(target));
     assertTrue(this.queryParser.parse("dateValue ∈ [2021-02-05T10:15:16]").test(target));
@@ -328,9 +352,13 @@ class JavaQueryParserTest
     assertThrows(QueryException.class, () -> this.queryParser.parse("dateValue < X").test(target));
 
     assertTrue(this.queryParser.parse("dateValue <= 2021-02-05T10:15:16.17").test(target));
-    assertTrue(this.queryParser.parse("dateValue <= 2021-02-05T10:16:16.18").test(target));
+    assertTrue(this.queryParser.parse("dateValue <= 2021-02-05T10:15:16.18").test(target));
     assertFalse(this.queryParser.parse("dateValue <= 2021-02-05T10:15:16.16").test(target));
     assertThrows(QueryException.class, () -> this.queryParser.parse("dateValue <= X").test(target));
+
+    assertThrows(QueryException.class, () -> this.queryParser.parse("dateValue ≈ 2021-02-05T10:15:16.17").test(target));
+
+    assertThrows(QueryException.class, () -> this.queryParser.parse("dateValue !≈ 2021-02-05T10:15:16.18").test(target));
 
     assertTrue(this.queryParser.parse("dateValue ∈ [2021-02-05T10:15:16.16, 2021-02-05T10:15:16.17, 2021-02-05T10:15:16.18]").test(target));
     assertTrue(this.queryParser.parse("dateValue ∈ [2021-02-05T10:15:16.17]").test(target));
@@ -370,6 +398,10 @@ class JavaQueryParserTest
     assertFalse(this.queryParser.parse("doubleValue <= 1.1").test(target));
     assertThrows(QueryException.class, () -> this.queryParser.parse("doubleValue <= X").test(target));
 
+    assertThrows(QueryException.class, () -> this.queryParser.parse("doubleValue ≈ 1.2").test(target));
+
+    assertThrows(QueryException.class, () -> this.queryParser.parse("doubleValue !≈ 1.3").test(target));
+
     assertTrue(this.queryParser.parse("doubleValue ∈ [1.1, 1.2, 1.3]").test(target));
     assertTrue(this.queryParser.parse("doubleValue ∈ [1.2]").test(target));
     assertFalse(this.queryParser.parse("doubleValue ∈ [1.1]").test(target));
@@ -408,6 +440,10 @@ class JavaQueryParserTest
     assertFalse(this.queryParser.parse("floatValue <= 1.1").test(target));
     assertThrows(QueryException.class, () -> this.queryParser.parse("floatValue <= X").test(target));
 
+    assertThrows(QueryException.class, () -> this.queryParser.parse("floatValue ≈ 1.2").test(target));
+
+    assertThrows(QueryException.class, () -> this.queryParser.parse("floatValue !≈ 1.3").test(target));
+
     assertTrue(this.queryParser.parse("floatValue ∈ [1.1, 1.2, 1.3]").test(target));
     assertTrue(this.queryParser.parse("floatValue ∈ [1.2]").test(target));
     assertFalse(this.queryParser.parse("floatValue ∈ [1.1]").test(target));
@@ -445,6 +481,10 @@ class JavaQueryParserTest
     assertTrue(this.queryParser.parse("intValue <= 10").test(target));
     assertFalse(this.queryParser.parse("intValue <= 9").test(target));
     assertThrows(QueryException.class, () -> this.queryParser.parse("intValue <= X").test(target));
+
+    assertThrows(QueryException.class, () -> this.queryParser.parse("intValue ≈ 10").test(target));
+
+    assertThrows(QueryException.class, () -> this.queryParser.parse("intValue !≈ 11").test(target));
 
     assertTrue(this.queryParser.parse("intValue ∈ [9, 10, 11]").test(target));
     assertTrue(this.queryParser.parse("intValue ∈ [10]").test(target));
@@ -486,6 +526,10 @@ class JavaQueryParserTest
     assertFalse(this.queryParser.parse("localDateValue <= 2021-02-04").test(target));
     assertThrows(QueryException.class, () -> this.queryParser.parse("localDateValue <= X").test(target));
 
+    assertThrows(QueryException.class, () -> this.queryParser.parse("localDateValue ≈ 2021-02-06").test(target));
+
+    assertThrows(QueryException.class, () -> this.queryParser.parse("localDateValue !≈ 2021-02-07").test(target));
+
     assertTrue(this.queryParser.parse("localDateValue ∈ [2021-02-04, 2021-02-05, 2021-02-06]").test(target));
     assertTrue(this.queryParser.parse("localDateValue ∈ [2021-02-05]").test(target));
     assertFalse(this.queryParser.parse("localDateValue ∈ [2021-02-04]").test(target));
@@ -526,6 +570,10 @@ class JavaQueryParserTest
     assertFalse(this.queryParser.parse("localDateTimeValue <= 2021-02-05T10:14").test(target));
     assertThrows(QueryException.class, () -> this.queryParser.parse("localDateTimeValue <= X").test(target));
 
+    assertThrows(QueryException.class, () -> this.queryParser.parse("localDateTimeValue ≈ 2021-02-05T10:16").test(target));
+
+    assertThrows(QueryException.class, () -> this.queryParser.parse("localDateTimeValue !≈ 2021-02-05T10:15").test(target));
+
     assertTrue(this.queryParser.parse("localDateTimeValue ∈ [2021-02-05T10:14, 2021-02-05T10:15, 2021-02-05T10:16]").test(target));
     assertTrue(this.queryParser.parse("localDateTimeValue ∈ [2021-02-05T10:15]").test(target));
     assertFalse(this.queryParser.parse("localDateTimeValue ∈ [2021-02-05T10:14]").test(target));
@@ -561,10 +609,14 @@ class JavaQueryParserTest
     assertFalse(this.queryParser.parse("localDateTimeValue < 2021-02-05T10:15:16").test(target));
     assertThrows(QueryException.class, () -> this.queryParser.parse("localDateTimeValue < X").test(target));
 
-    assertTrue(this.queryParser.parse("localDateTimeValue <= 2021-02-05T10:17").test(target));
-    assertTrue(this.queryParser.parse("localDateTimeValue <= 2021-02-05T10:16").test(target));
-    assertFalse(this.queryParser.parse("localDateTimeValue <= 2021-02-05T10:15").test(target));
+    assertTrue(this.queryParser.parse("localDateTimeValue <= 2021-02-05T10:15:17").test(target));
+    assertTrue(this.queryParser.parse("localDateTimeValue <= 2021-02-05T10:15:16").test(target));
+    assertFalse(this.queryParser.parse("localDateTimeValue <= 2021-02-05T10:15:15").test(target));
     assertThrows(QueryException.class, () -> this.queryParser.parse("localDateTimeValue <= X").test(target));
+
+    assertThrows(QueryException.class, () -> this.queryParser.parse("localDateTimeValue ≈ 2021-02-05T10:15:16").test(target));
+
+    assertThrows(QueryException.class, () -> this.queryParser.parse("localDateTimeValue !≈ 2021-02-05T10:15:15").test(target));
 
     assertTrue(this.queryParser.parse("localDateTimeValue ∈ [2021-02-05T10:15:15, 2021-02-05T10:15:16, 2021-02-05T10:15:17]").test(target));
     assertTrue(this.queryParser.parse("localDateTimeValue ∈ [2021-02-05T10:15:16]").test(target));
@@ -602,9 +654,13 @@ class JavaQueryParserTest
     assertThrows(QueryException.class, () -> this.queryParser.parse("localDateTimeValue < X").test(target));
 
     assertTrue(this.queryParser.parse("localDateTimeValue <= 2021-02-05T10:15:16.17").test(target));
-    assertTrue(this.queryParser.parse("localDateTimeValue <= 2021-02-05T10:16:16.18").test(target));
+    assertTrue(this.queryParser.parse("localDateTimeValue <= 2021-02-05T10:15:16.18").test(target));
     assertFalse(this.queryParser.parse("localDateTimeValue <= 2021-02-05T10:15:16.16").test(target));
     assertThrows(QueryException.class, () -> this.queryParser.parse("localDateTimeValue <= X").test(target));
+
+    assertThrows(QueryException.class, () -> this.queryParser.parse("localDateTimeValue ≈ 2021-02-05T10:15:16.18").test(target));
+
+    assertThrows(QueryException.class, () -> this.queryParser.parse("localDateTimeValue !≈ 2021-02-05T10:15:16.17").test(target));
 
     assertTrue(this.queryParser.parse("localDateTimeValue ∈ [2021-02-05T10:15:16.16, 2021-02-05T10:15:16.17, 2021-02-05T10:15:16.18]").test(target));
     assertTrue(this.queryParser.parse("localDateTimeValue ∈ [2021-02-05T10:15:16.17]").test(target));
@@ -644,6 +700,10 @@ class JavaQueryParserTest
     assertFalse(this.queryParser.parse("longValue <= 9").test(target));
     assertThrows(QueryException.class, () -> this.queryParser.parse("longValue <= X").test(target));
 
+    assertThrows(QueryException.class, () -> this.queryParser.parse("longValue ≈ 11").test(target));
+
+    assertThrows(QueryException.class, () -> this.queryParser.parse("longValue !≈ 10").test(target));
+
     assertTrue(this.queryParser.parse("longValue ∈ [9, 10, 11]").test(target));
     assertTrue(this.queryParser.parse("longValue ∈ [10]").test(target));
     assertFalse(this.queryParser.parse("longValue ∈ [9]").test(target));
@@ -682,6 +742,10 @@ class JavaQueryParserTest
     assertFalse(this.queryParser.parse("shortValue <= 9").test(target));
     assertThrows(QueryException.class, () -> this.queryParser.parse("shortValue <= X").test(target));
 
+    assertThrows(QueryException.class, () -> this.queryParser.parse("shortValue ≈ 11").test(target));
+
+    assertThrows(QueryException.class, () -> this.queryParser.parse("shortValue !≈ 10").test(target));
+
     assertTrue(this.queryParser.parse("shortValue ∈ [9, 10, 11]").test(target));
     assertTrue(this.queryParser.parse("shortValue ∈ [10]").test(target));
     assertFalse(this.queryParser.parse("shortValue ∈ [9]").test(target));
@@ -713,6 +777,20 @@ class JavaQueryParserTest
     assertTrue(this.queryParser.parse("stringValue <= BC").test(target));
     assertTrue(this.queryParser.parse("stringValue <= BB").test(target));
     assertFalse(this.queryParser.parse("stringValue <= AB").test(target));
+
+    assertTrue(this.queryParser.parse("stringValue ≈ B*").test(target));
+    assertTrue(this.queryParser.parse("stringValue ≈ *B").test(target));
+    assertTrue(this.queryParser.parse("stringValue ≈ *B*").test(target));
+    assertFalse(this.queryParser.parse("stringValue ≈ *A*").test(target));
+    assertFalse(this.queryParser.parse("stringValue ≈ *A*").test(target));
+    assertFalse(this.queryParser.parse("stringValue ≈ *A*").test(target));
+
+    assertFalse(this.queryParser.parse("stringValue !≈ B*").test(target));
+    assertFalse(this.queryParser.parse("stringValue !≈ *B").test(target));
+    assertFalse(this.queryParser.parse("stringValue !≈ *B*").test(target));
+    assertTrue(this.queryParser.parse("stringValue !≈ *A*").test(target));
+    assertTrue(this.queryParser.parse("stringValue !≈ *A*").test(target));
+    assertTrue(this.queryParser.parse("stringValue !≈ *A*").test(target));
 
     assertTrue(this.queryParser.parse("stringValue ∈ [AB, BB, BC]").test(target));
     assertTrue(this.queryParser.parse("stringValue ∈ [BB]").test(target));

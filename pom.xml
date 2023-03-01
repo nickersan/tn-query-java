@@ -9,11 +9,12 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>com.tn.query</groupId>
-    <artifactId>tn-query-parent</artifactId>
+    <groupId>com.tn</groupId>
+    <artifactId>tn-parent</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
 
+  <groupId>com.tn.query</groupId>
   <artifactId>tn-query-java</artifactId>
   <version>0.0.1-SNAPSHOT</version>
 
@@ -26,7 +27,7 @@
     <dependency>
       <groupId>com.tn.query</groupId>
       <artifactId>tn-query</artifactId>
-      <version>0.0.01-SNAPSHOT</version>
+      <version>0.0.1-SNAPSHOT</version>
     </dependency>
 
     <!-- 3rd party -->
