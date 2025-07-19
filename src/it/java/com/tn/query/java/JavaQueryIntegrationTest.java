@@ -1,12 +1,8 @@
 package com.tn.query.java;
 
-import static java.util.Collections.emptySet;
-
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -14,34 +10,33 @@ import java.time.Month;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 import java.util.function.Predicate;
 
 import org.junit.jupiter.api.Test;
 
+import com.tn.query.DefaultQueryParser;
 import com.tn.query.Mapper;
 import com.tn.query.QueryException;
-import com.tn.query.QueryParseException;
 import com.tn.query.QueryParser;
-import com.tn.query.node.GreaterThan;
-import com.tn.query.node.Node;
 
-class JavaQueryParserTest
+class JavaQueryIntegrationTest
 {
-  private final QueryParser<Predicate<Target>> queryParser = new JavaQueryParser<>(
-    List.of(
-      Getter.booleanValue("booleanValue", target -> target.booleanValue),
-      Getter.byteValue("byteValue", target -> target.byteValue),
-      Getter.charValue("charValue", target -> target.charValue),
-      Getter.comparableValue("dateValue", target -> target.dateValue),
-      Getter.doubleValue("doubleValue", target -> target.doubleValue),
-      Getter.floatValue("floatValue", target -> target.floatValue),
-      Getter.intValue("intValue", target -> target.intValue),
-      Getter.comparableValue("localDateValue", target -> target.localDateValue),
-      Getter.comparableValue("localDateTimeValue", target -> target.localDateTimeValue),
-      Getter.longValue("longValue", target -> target.longValue),
-      Getter.shortValue("shortValue", target -> target.shortValue),
-      Getter.comparableValue("stringValue", target -> target.stringValue)
+  private final QueryParser<Predicate<Target>> queryParser = new DefaultQueryParser<>(
+    new JavaPredicateFactory<>(
+      List.of(
+        Getter.booleanValue("booleanValue", target -> target.booleanValue),
+        Getter.byteValue("byteValue", target -> target.byteValue),
+        Getter.charValue("charValue", target -> target.charValue),
+        Getter.comparableValue("dateValue", target -> target.dateValue),
+        Getter.doubleValue("doubleValue", target -> target.doubleValue),
+        Getter.floatValue("floatValue", target -> target.floatValue),
+        Getter.intValue("intValue", target -> target.intValue),
+        Getter.comparableValue("localDateValue", target -> target.localDateValue),
+        Getter.comparableValue("localDateTimeValue", target -> target.localDateTimeValue),
+        Getter.longValue("longValue", target -> target.longValue),
+        Getter.shortValue("shortValue", target -> target.shortValue),
+        Getter.comparableValue("stringValue", target -> target.stringValue)
+      )
     ),
     List.of(
       Mapper.toBoolean("booleanValue"),
@@ -59,7 +54,7 @@ class JavaQueryParserTest
   );
 
   @Test
-  void testParseBoolean()
+  void shouldMatchBoolean()
   {
     Target target = new Target();
     target.booleanValue = true;
@@ -99,7 +94,7 @@ class JavaQueryParserTest
   }
 
   @Test
-  void testParseByte()
+  void shouldMatchByte()
   {
     Target target = new Target();
     target.byteValue = 1;
@@ -141,7 +136,7 @@ class JavaQueryParserTest
   }
 
   @Test
-  void testParseChar()
+  void shouldMatchChar()
   {
     Target target = new Target();
     target.charValue = 'b';
@@ -183,7 +178,7 @@ class JavaQueryParserTest
   }
 
   @Test
-  void testParseDate()
+  void shouldMatchDate()
   {
     Calendar calendar = Calendar.getInstance();
     calendar.set(2021, Calendar.FEBRUARY, 5, 0, 0, 0);
@@ -229,7 +224,7 @@ class JavaQueryParserTest
   }
 
   @Test
-  void testParseDateTimeWithMinutes()
+  void shouldMatchDateTimeWithMinutes()
   {
     Calendar calendar = Calendar.getInstance();
     calendar.set(2021, Calendar.FEBRUARY, 5, 10, 15, 0);
@@ -275,7 +270,7 @@ class JavaQueryParserTest
   }
 
   @Test
-  void testParseDateTimeWithSeconds()
+  void shouldMatchDateTimeWithSeconds()
   {
     Calendar calendar = Calendar.getInstance();
     calendar.set(2021, Calendar.FEBRUARY, 5, 10, 15, 16);
@@ -321,7 +316,7 @@ class JavaQueryParserTest
   }
 
   @Test
-  void testParseDateTimeWithMilliseconds()
+  void shouldMatchDateTimeWithMilliseconds()
   {
     Calendar calendar = Calendar.getInstance();
     calendar.set(2021, Calendar.FEBRUARY, 5, 10, 15, 16);
@@ -367,7 +362,7 @@ class JavaQueryParserTest
   }
 
   @Test
-  void testParseDouble()
+  void shouldMatchDouble()
   {
     Target target = new Target();
     target.doubleValue = 1.2;
@@ -409,7 +404,7 @@ class JavaQueryParserTest
   }
 
   @Test
-  void testParseFloat()
+  void shouldMatchFloat()
   {
     Target target = new Target();
     target.floatValue = 1.2F;
@@ -451,7 +446,7 @@ class JavaQueryParserTest
   }
 
   @Test
-  void testParseInt()
+  void shouldMatchInt()
   {
     Target target = new Target();
     target.intValue = 10;
@@ -493,7 +488,7 @@ class JavaQueryParserTest
   }
 
   @Test
-  void testParseLocalDate()
+  void shouldMatchLocalDate()
   {
     LocalDate localDate = LocalDate.of(2021, Month.FEBRUARY, 5);
 
@@ -537,7 +532,7 @@ class JavaQueryParserTest
   }
 
   @Test
-  void testParseLocalDateTimeWithMinutes()
+  void shouldMatchLocalDateTimeWithMinutes()
   {
     LocalDateTime localDateTime = LocalDateTime.of(2021, Month.FEBRUARY, 5, 10, 15);
 
@@ -581,7 +576,7 @@ class JavaQueryParserTest
   }
 
   @Test
-  void testParseLocalDateTimeWithSeconds()
+  void shouldMatchLocalDateTimeWithSeconds()
   {
     LocalDateTime localDateTime = LocalDateTime.of(2021, Month.FEBRUARY, 5, 10, 15, 16);
 
@@ -625,7 +620,7 @@ class JavaQueryParserTest
   }
 
   @Test
-  void testParseLocalDateTimeWithMilliseconds()
+  void shouldMatchLocalDateTimeWithMilliseconds()
   {
     LocalDateTime localDateTime = LocalDateTime.of(2021, Month.FEBRUARY, 5, 10, 15, 16, 170_000_000);
 
@@ -669,7 +664,7 @@ class JavaQueryParserTest
   }
 
   @Test
-  void testParseLong()
+  void shouldMatchLong()
   {
     Target target = new Target();
     target.longValue = 10;
@@ -711,7 +706,7 @@ class JavaQueryParserTest
   }
 
   @Test
-  void testParseShort()
+  void shouldMatchShort()
   {
     Target target = new Target();
     target.shortValue = 10;
@@ -753,7 +748,7 @@ class JavaQueryParserTest
   }
 
   @Test
-  void testParseString()
+  void shouldMatchString()
   {
     Target target = new Target();
     target.stringValue = "BB";
@@ -798,13 +793,13 @@ class JavaQueryParserTest
   }
 
   @Test
-  void testParseUnknownField()
+  void shouldMatchUnknownField()
   {
-    assertThrows(QueryParseException.class, () -> this.queryParser.parse("unknown = anything"));
+    assertThrows(QueryException.class, () -> this.queryParser.parse("unknown = anything"));
   }
 
   @Test
-  void testParseAnd()
+  void shouldMatchAnd()
   {
     Target target = new Target();
     target.stringValue = "Testing";
@@ -816,7 +811,7 @@ class JavaQueryParserTest
   }
 
   @Test
-  void testParseOr()
+  void shouldMatchOr()
   {
     Target target = new Target();
     target.stringValue = "Testing";
@@ -829,7 +824,7 @@ class JavaQueryParserTest
   }
 
   @Test
-  void testParseMultipleLogicalOperatorsWithParenthesis()
+  void shouldMatchMultipleLogicalOperatorsWithParenthesis()
   {
     Target target = new Target();
     target.booleanValue = true;
@@ -839,56 +834,6 @@ class JavaQueryParserTest
     assertTrue(this.queryParser.parse("booleanValue = true || (stringValue = X && intValue = 1)").test(target));
     assertTrue(this.queryParser.parse("booleanValue = false || (stringValue = Testing && intValue = 123)").test(target));
     assertFalse(this.queryParser.parse("booleanValue = false || (stringValue = X && intValue = 1)").test(target));
-  }
-
-  @Test
-  void testParseInvalidNode()
-  {
-    assertThrows(QueryParseException.class, () -> new JavaQueryParser<>(emptySet(), emptySet()).predicate(mock(Node.class)));
-  }
-
-  @Test
-  void testParseInvalidLeft()
-  {
-    Object target = new Object();
-    String name = "value";
-    String right = "right";
-
-    @SuppressWarnings("unchecked")
-    Getter<Object> getter = mock(Getter.class);
-    when(getter.name()).thenReturn(name);
-    when(getter.get(target)).thenReturn(new Object());
-
-    Mapper mapper = mock(Mapper.class);
-    when(mapper.name()).thenReturn(name);
-    when(mapper.map(right)).thenReturn(right);
-
-    assertThrows(
-      QueryParseException.class,
-      () -> new JavaQueryParser<>(Set.of(getter), Set.of(mapper)).predicate(new GreaterThan(name, right)).test(target)
-    );
-  }
-
-  @Test
-  void testParseInvalidRight()
-  {
-    Object target = new Object();
-    String name = "value";
-    String right = "right";
-
-    @SuppressWarnings("unchecked")
-    Getter<Object> getter = mock(Getter.class);
-    when(getter.name()).thenReturn(name);
-    when(getter.get(target)).thenReturn("something");
-
-    Mapper mapper = mock(Mapper.class);
-    when(mapper.name()).thenReturn(name);
-    when(mapper.map(right)).thenReturn(new Object());
-
-    assertThrows(
-      QueryParseException.class,
-      () -> new JavaQueryParser<>(Set.of(getter), Set.of(mapper)).predicate(new GreaterThan(name, right)).test(target)
-    );
   }
 
   static class Target
